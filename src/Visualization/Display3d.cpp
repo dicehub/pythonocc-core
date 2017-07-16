@@ -113,7 +113,7 @@ Standard_Boolean Display3d::SetSize(int size_x, int size_y)
       printf("Cocoa window created.\n");
       myWindow->SetVirtual (true);
 #else
-      myWindow = new Xw_Window (aDisplayConnection,
+      myWindow = new Xw_Window (myAISContext->CurrentViewer()->Driver()->GetDisplayConnection(),
                                    "Python OCC",
                                    0, 0,
                                    size_x, size_y);
