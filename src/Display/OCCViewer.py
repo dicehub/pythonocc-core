@@ -127,6 +127,7 @@ class Viewer3d(OCC.Visualization.Display3d):
         self._struc_mgr = None
         self.selected_shapes = []
         self._select_callbacks = []
+        self._is_offscreen = None
 
     def register_select_callback(self, callback):
         """ Adds a callback that will be called each time a shape s selected
@@ -152,7 +153,13 @@ class Viewer3d(OCC.Visualization.Display3d):
         self.View.FitAll()
 
     def Create(self, create_default_lights=True, draw_face_boundaries=True, phong_shading=True):
-        self.Init(self._window_handle)
+        if self._window_handle is None:
+            self.InitOffscreen(100, 100)
+            self._is_offscreen = True
+        else:
+            self.Init(self._window_handle)
+            self._is_offscreen = False
+
         self.Context_handle = self.GetContext()
         self.Viewer_handle = self.GetViewer()
         self.View_handle = self.GetView()
